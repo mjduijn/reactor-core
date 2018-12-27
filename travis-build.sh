@@ -18,14 +18,14 @@ if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then
     echo "PR content: $COMMIT_CONTENT"
     if echo $COMMIT_CONTENT | grep -qv '^reactor-test/' ; then
       echo "something else than reactor-test was touched -> full test"
-      ./gradlew check
+      ./gradlew assemble
     else
       echo "only reactor-test was touched -> selective test"
       ./gradlew :reactor-test:check
     fi
 elif [ "$TRAVIS_BRANCH" == "master" ] || [ "$TRAVIS_BRANCH" == "3.0.x" ] || [ "$TRAVIS_BRANCH" == "3.1.x" ]; then
     echo "master or 3.0.x/3.1.x: this is a merge test -> full test"
-    ./gradlew check
+    ./gradlew assemble
 else
     COMMIT_RANGE=${TRAVIS_COMMIT_RANGE/.../..}
     echo "travis push build, looking at files in $COMMIT_RANGE"
@@ -41,7 +41,7 @@ else
     echo "commits content: $COMMIT_CONTENT"
     if echo $COMMIT_CONTENT | grep -qv '^reactor-test/' ; then
       echo "something else than reactor-test was touched -> full test"
-      ./gradlew check
+      ./gradlew assemble
     else
       echo "only reactor-test was touched -> selective test"
       ./gradlew :reactor-test:check
